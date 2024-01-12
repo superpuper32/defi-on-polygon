@@ -4,23 +4,23 @@ import { Icon } from '@chakra-ui/react'
 import { Tabs, TabList, Tab } from '@chakra-ui/react'
 import { FaBalanceScale, FaCommentAlt } from "react-icons/fa";
 import { useRouter } from "next/router";
-
  
 const Navbar: React.FunctionComponent = () => {
-	const { route } = useRouter();
+  const { route } = useRouter();
+
   return (
     <nav>
 	  <Tabs 
-			pt={1} 
-			size="lg"
-			index={route !== '/amm' ? 0 : 1}
-			align='center' 
-			colorScheme='gray'
-			>
-		<TabList>
+		pt={1} 
+		size="lg"
+		index={route !== '/amm' ? 0 : 1}
+		align='center' 
+		colorScheme='gray'
+	  >
+	    <TabList>
 		  <NextLink href='/' passHref><Tab><Icon as={FaCommentAlt} /></Tab></NextLink>
 		  <NextLink href='/amm' passHref><Tab><Icon as={FaBalanceScale} /></Tab></NextLink>
-		</TabList>	
+	    </TabList>	
 	  </Tabs>
 	</nav>
   )
