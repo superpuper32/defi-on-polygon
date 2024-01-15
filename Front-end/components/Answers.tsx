@@ -4,7 +4,8 @@ import useAnswers from '../hooks/useAnswers';
 import Answer from './Answer';
 import type { BigNumber } from 'ethers';
 import type { Answer as AnswerStruct } from '../hooks/contracts/useForumContract';
-import AnswerEditor from './AnswerEditor'; 
+import AnswerEditor from './AnswerEditor';
+import useEvents from '../hooks/useEvents';
 
 interface AnswersProps {
   questionId: BigNumber;
@@ -20,6 +21,8 @@ const Answers: React.FunctionComponent<AnswersProps> = ({ questionId }) => {
       setSortedAnswers(sortAnswers);
     }
   }, [answersQuery.data, answersQuery.isFetched]);
+
+  useEvents({ questionId });
 
   return (
     <Box>

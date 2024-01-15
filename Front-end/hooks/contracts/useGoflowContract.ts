@@ -12,6 +12,11 @@ export interface Transfer {
   amount: BigNumber;
 }
 
+export enum TokenEvent {
+  Transfer = 'Transfer',
+  Mint = 'Mint',
+}
+
 const useGoflowContract = () => {
 
   const { data: signer } = useSigner();
