@@ -14,7 +14,7 @@ const Navbar: React.FunctionComponent = () => {
 		pt={1} 
 		size="lg"
 		index={route !== '/amm' ? 0 : 1}
-		align='center' 
+		align='center'
 		colorScheme='gray'
 	  >
 	    <TabList>
@@ -23,7 +23,7 @@ const Navbar: React.FunctionComponent = () => {
 	    </TabList>	
 	  </Tabs>
 	</nav>
-  )
+  );
 }
 
  
