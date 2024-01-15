@@ -6,6 +6,20 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Toaster, toast } from 'react-hot-toast';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
+import { WagmiConfig, createClient } from 'wagmi';
+import { providers } from 'ethers';
+
+// Use wagmi to configure the provider.
+// Right now, we will only connect to hardhat's standalone localhost network
+const localhostProvider = new providers.JsonRpcProvider(
+  'http://localhost:8545', 
+  {name: 'dev', chainId: 1337, ensAddress: undefined}
+);
+// Give wagmi our provider config and allow it to autoconnect wallet
+const client = createClient({
+	autoConnect: true,
+  provider: localhostProvider
+});
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -25,14 +39,16 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <Navbar />
-        <Component {...pageProps} />
-        <Toaster position='bottom-right' />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ChakraProvider>
+    <WagmiConfig client={client}>
+      <ChakraProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <Navbar />
+          <Component {...pageProps} />
+          <Toaster position='bottom-right' />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </ChakraProvider>
+    </WagmiConfig>
   );
 }
 
