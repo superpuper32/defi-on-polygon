@@ -122,9 +122,59 @@ describe('Forum', () => {
         expect(await goflow.balanceOf(user1.address)).to.equal(makeBig(12));
     });
 
-    it('should upvote an answer but pay the forum contract', async () => {});
+    it('should upvote an answer but pay the forum contract', async () => {
+        const mintTx = await goflow.connect(owner).mint(makeBig(10));
+        await mintTx.wait();
 
-    it('should not be possible to upvote an answer twice', async () => {});
-        
+        const mintTx2 = await goflow.connect(user2).mint(makeBig(10));
+        await mintTx2.wait();
+
+        // "approve before someone else can move"
+        const tokenApprove = await goflow.connect(owner).approve(forum.address, makeBig(10));
+        await tokenApprove.wait();
+
+        await postQuestionsAndAnswers(user1, user2);
+
+        const upvoteTx = await forum.connect(owner).upvoteAnswer(0);
+        await upvoteTx.wait();
+        const upvoteTx2 = await forum.connect(owner).upvoteAnswer(1);
+        await upvoteTx2.wait();
+
+        // console.log('goflow balance of contract at start', await goflow.balanceOf(forum.address));
+
+        // each answer should have one upvote 👍
+        expect(await forum.getUpvotes(0)).to.equal(1);
+        expect(await forum.getUpvotes(1)).to.equal(1);
+        // user2 has a balance of >= 10, and receives the tip! 👍
+        expect(await goflow.balanceOf(user2.address)).to.equal(makeBig(11));
+        // user1 has no tokens, so receives no tip...👎
+        expect(await goflow.balanceOf(user1.address)).to.equal(makeBig(0));
+        // ...but the contract receives the tip instead 📈
+        expect(await goflow.balanceOf(forum.address)).to.equal(makeBig(1));
+    });
+
+    it('should not be possible to upvote an answer twice', async () => {
+        const mintTx = await goflow.connect(owner).mint(makeBig(10));
+        await mintTx.wait();
+
+        const tokenApprove = await goflow.connect(owner).approve(forum.address, makeBig(10));
+        await tokenApprove.wait();
+
+        await postQuestionsAndAnswers(user1, user2);
+
+        // owner upvotes answer 0 👍
+        const upvoteTx = await forum.connect(owner).upvoteAnswer(0);
+        await upvoteTx.wait();
+        // owner upvotes answer 1 👍
+        const upvoteTx2 = await forum.connect(owner).upvoteAnswer(1);
+        await upvoteTx2.wait();
+        // owner tries to upvote answer 0 again 👎
+        // NOTE: for expecting a reverted message, we need to put await first!
+        await expect(forum.connect(owner).upvoteAnswer(0)).to.be.revertedWith('User already upvoted this answer!');
+        // answer 0 should only have one upvote ✅
+        expect(await forum.getUpvotes(0)).to.equal(1);
+        // owner should have upvoted other answers two times ✅
+        expect(await forum.usersUpvoteCount(owner.address)).to.equal(2);
+    });
   });
 });
