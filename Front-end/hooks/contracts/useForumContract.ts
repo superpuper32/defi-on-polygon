@@ -21,6 +21,12 @@ export interface Answer {
   upvotes: BigNumber;
 }
 
+export enum ForumEvent {
+  QuestionAdded = 'QuestionAdded',
+  AnswerAdded = 'AnswerAdded',
+  AnswerUpvoted = 'AnswerUpvoted',
+}
+
 const useForumContract = () => {
   // An ethers.Provider instance. This will help us read from the contract
   // even if we don't have a logged in wallet. We set this up in _app.tsx.
