@@ -4,6 +4,7 @@ import useAnswers from '../hooks/useAnswers';
 import Answer from './Answer';
 import type { BigNumber } from 'ethers';
 import type { Answer as AnswerStruct } from '../hooks/contracts/useForumContract';
+import AnswerEditor from './AnswerEditor'; 
 
 interface AnswersProps {
   questionId: BigNumber;
@@ -31,6 +32,7 @@ const Answers: React.FunctionComponent<AnswersProps> = ({ questionId }) => {
         {sortedAnswers?.map((answer, i) => (
           <Answer key={answer.answerId.toNumber()} answer={answer} first={i === 0 && answer.upvotes.toNumber() != 0} />
         ))}
+        {answersQuery.isFetched && <AnswerEditor questionid={questionId} />}
       </Stack>
     </Box>
   );
