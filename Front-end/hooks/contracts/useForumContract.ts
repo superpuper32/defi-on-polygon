@@ -1,5 +1,5 @@
 import * as wagmi from "wagmi";
-import { useProvider } from "wagmi";
+import { useProvider, useSigner } from "wagmi";
 import type { BigNumber } from "ethers";
 // Import our contract ABI (a json representation of our contract's public interface).
 // The hardhat compiler writes this file to artifacts every time we run `npx hardhat`.
@@ -25,13 +25,14 @@ const useForumContract = () => {
   // An ethers.Provider instance. This will help us read from the contract
   // even if we don't have a logged in wallet. We set this up in _app.tsx.
   const provider = useProvider();
+  const { data: signer } = useSigner();
 
   // This returns a new ethers.Contract ready to interact with our API.
   // We need to pass in the address of our deployed contract as well as its abi.
   const contract = wagmi.useContract({
-    addressOrName: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+    addressOrName: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
     contractInterface: ForumContract.abi,
-    signerOrProvider: provider,
+    signerOrProvider: signer || provider,
   });
 
   // Wrapper to fetch a question from the contract

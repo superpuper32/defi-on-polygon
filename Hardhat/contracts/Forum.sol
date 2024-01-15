@@ -84,13 +84,13 @@ contract Forum {
     require(Goflow.balanceOf(msg.sender) >= amountToPay, 'User has insufficient balance!');
     require(Goflow.allowance(msg.sender, address(this)) >= amountToPay, 'Account did not approve token succesfully!');
     
-    Answer storage currentAnswer = answers[_answerId]; 
+    Answer storage currentAnswer = answers[_answerId];
       
     bool sent;
     if (Goflow.balanceOf(currentAnswer.creatorAddress) >= 10) {
-      sent = Goflow.transferFrom(msg.sender, currentAnswer.creatorAddress, 1); 
+      sent = Goflow.transferFrom(msg.sender, currentAnswer.creatorAddress, 1);
     } else {
-      sent = Goflow.transferFrom(msg.sender, address(this), amountToPay); 
+      sent = Goflow.transferFrom(msg.sender, address(this), amountToPay);
     }
     
     require(sent, "Token transfer failed!");
