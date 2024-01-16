@@ -36,7 +36,7 @@ const useForumContract = () => {
   // This returns a new ethers.Contract ready to interact with our API.
   // We need to pass in the address of our deployed contract as well as its abi.
   const contract = wagmi.useContract({
-    addressOrName: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
+    addressOrName: '0x71a4Eb17c47b52f50C0a51170f33aa2e48981C11',
     contractInterface: ForumContract.abi,
     signerOrProvider: signer || provider,
   });

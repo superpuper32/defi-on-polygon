@@ -11,14 +11,18 @@ import { providers } from 'ethers';
 
 // Use wagmi to configure the provider.
 // Right now, we will only connect to hardhat's standalone localhost network
-const localhostProvider = new providers.JsonRpcProvider(
-  'http://localhost:8545', 
-  {name: 'dev', chainId: 1337, ensAddress: undefined}
+// const localhostProvider = new providers.JsonRpcProvider(
+//   'http://localhost:8545', 
+//   {name: 'dev', chainId: 1337, ensAddress: undefined}
+// );
+const alchemyProvider = new providers.AlchemyProvider(
+  'maticmum',
+  'mB_0N3qXkA_yjzPNfR17cKqYKY1FYeZk'
 );
 // Give wagmi our provider config and allow it to autoconnect wallet
 const client = createClient({
 	autoConnect: true,
-  provider: localhostProvider
+  provider: alchemyProvider
 });
 
 // Create a react-query client
