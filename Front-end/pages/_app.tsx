@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
 import { WagmiConfig, createClient } from 'wagmi';
 import { providers } from 'ethers';
+import NextNProgress from "nextjs-progressbar";
 
 // Use wagmi to configure the provider.
 // Right now, we will only connect to hardhat's standalone localhost network
@@ -46,6 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiConfig client={client}>
       <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
+          <NextNProgress color='#553C9A' />
           <Navbar />
           <Component {...pageProps} />
           <Toaster position='bottom-right' />
